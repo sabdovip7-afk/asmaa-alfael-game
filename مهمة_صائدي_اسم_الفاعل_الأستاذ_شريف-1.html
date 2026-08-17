@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مهمة صائدي اسم الفاعل | الأستاذ شريف عبد الفتاح</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:radial-gradient(circle at top,#253d79,#090d2b 65%);color:#fff;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:0}.wrap{max-width:1050px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#10255c,#24104f);border:2px solid #f7c64b;border-radius:28px;padding:22px;text-align:center;box-shadow:0 15px 40px #0008}
+.hero h1{font-size:clamp(30px,7vw,58px);margin:5px 0;color:#ffd34f;text-shadow:0 4px #5d2b00}.hero p{margin:8px;font-size:18px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.stat{background:#111d49;border:1px solid #4963a5;border-radius:18px;padding:12px;text-align:center}.num{font-size:26px;color:#ffd34f;font-weight:bold}
+.levels{display:flex;gap:8px;overflow:auto;margin:12px 0}.level{min-width:130px;background:#172557;padding:10px;border-radius:15px;text-align:center;border:1px solid #456}.level.active{background:#2e8c22;border-color:#9cff62}
+.game{background:#11183c;border:2px solid #5267a5;border-radius:25px;padding:22px;margin-top:12px}.stage{color:#9cff62;font-weight:bold;font-size:20px}.question{font-size:25px;line-height:1.7;background:#09132f;border-radius:18px;padding:18px;margin:14px 0;text-align:center}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.ans{background:#f4f0e7;color:#18204b;border-radius:16px;padding:17px;font-size:20px;font-weight:bold;transition:.2s}.ans:hover{transform:translateY(-3px)}.ans.correct{background:#48b42d;color:#fff}.ans.wrong{background:#c83b3b;color:#fff}
+.controls{text-align:center;margin:18px 0}.primary{background:#1686df;color:white;padding:14px 28px;border-radius:18px;font-size:19px;font-weight:bold}.secondary{background:#f5b82e;color:#2b1b00;padding:12px 22px;border-radius:16px;font-weight:bold}
+.overlay{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}.modal{max-width:650px;width:100%;background:#f7efd9;color:#192044;border:5px solid #e5a52d;border-radius:25px;padding:25px;text-align:right;box-shadow:0 20px 70px #000}
+.modal h2{margin-top:0;text-align:center;background:#1768ae;color:white;padding:13px;border-radius:15px}.rule{font-size:21px;line-height:2;background:#fff8e9;border-radius:16px;padding:16px}.bad{color:#b52b2b;font-weight:bold}.good{color:#258b26;font-weight:bold}
+footer{margin-top:18px;background:#071538;border:1px dashed #e7b63f;border-radius:20px;padding:20px;text-align:center}.teacher{font-size:24px;color:#ffd34f;font-weight:bold}.wa{display:inline-block;margin-top:8px;background:#1ca65a;color:white;padding:12px 20px;border-radius:15px;text-decoration:none;font-weight:bold}
+.start{position:fixed;inset:0;background:linear-gradient(135deg,#08123c,#2b1451);display:flex;align-items:center;justify-content:center;z-index:10;padding:20px}.startbox{max-width:650px;text-align:center;background:#111b48;border:3px solid #f4c14b;border-radius:30px;padding:30px}.startbox h1{color:#ffd34f;font-size:42px}.name{width:100%;padding:14px;border-radius:14px;border:2px solid #5770ac;font-size:18px;text-align:center;margin:10px 0}.hide{display:none!important}
+@media(max-width:650px){.answers{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.game{padding:15px}.question{font-size:21px}}
+</style>
+</head>
+<body>
+<div class="start" id="start">
+  <div class="startbox">
+    <h1>🏆 مهمة صائدي اسم الفاعل</h1>
+    <p>مغامرة تعليمية للصف الثالث الإعدادي</p>
+    <input id="student" class="name" placeholder="اكتب اسمك (اختياري)">
+    <button class="primary" onclick="startGame()">🚀 ابدأ المغامرة</button>
+    <p>تعلم • العب • اجمع النقاط • افتح المراحل</p>
+  </div>
+</div>
+
+<div class="wrap">
+<header class="hero">
+  <h1>مهمة صائدي اسم الفاعل</h1>
+  <p>لعبة نحوية تفاعلية مع الأستاذ شريف عبد الفتاح</p>
+</header>
+
+<div class="stats">
+  <div class="stat">⭐ النقاط<div class="num" id="score">0</div></div>
+  <div class="stat">❤️ الأرواح<div class="num" id="lives">❤️❤️❤️</div></div>
+  <div class="stat">🏆 المستوى<div class="num" id="levelNo">1 / 5</div></div>
+</div>
+
+<div class="levels" id="levels"></div>
+
+<main class="game">
+  <div class="stage" id="stage">المرحلة 1: اصطد اسم الفاعل</div>
+  <div class="question" id="question"></div>
+  <div class="answers" id="answers"></div>
+  <div class="controls"><button class="primary hide" id="next" onclick="nextQuestion()">السؤال التالي ➜</button></div>
+</main>
+
+<footer>
+  <div>🎓 تم تصميم اللعبة التعليمية بواسطة</div>
+  <div class="teacher">الأستاذ شريف عبد الفتاح</div>
+  <div>معلم اللغة العربية</div>
+  <a class="wa" href="https://wa.me/201019349929" target="_blank">💬 التواصل على واتساب 01019349929</a>
+</footer>
+</div>
+
+<div class="overlay" id="help">
+ <div class="modal">
+   <h2>💡 تذكر مع الأستاذ شريف</h2>
+   <div class="rule" id="rule"></div>
+   <div style="text-align:center;margin-top:15px">
+    <button class="secondary" onclick="closeHelp()">فهمت 👍 حاول مرة أخرى</button>
+   </div>
+ </div>
+</div>
+
+<script>
+const stages=[
+{title:"المرحلة 1: اصطد اسم الفاعل", qs:[
+["أي الكلمات الآتية اسم فاعل؟",["كاتب","مكتوب","كتابة","كتاب"],0,"اسم الفاعل من الفعل الثلاثي «كتب» هو «كاتب» على وزن فاعل."],
+["أي الكلمات الآتية اسم فاعل؟",["مدرسة","قارئ","قراءة","مقروء"],1,"«قارئ» اسم فاعل من «قرأ»، أما «مقروء» فهو اسم مفعول."],
+["اختر اسم الفاعل من «اجتهد»",["مُجتهِد","مُجتهَد","اجتهاد","جاهِد"],0,"الفعل غير الثلاثي «اجتهد» نصوغ منه اسم الفاعل من المضارع: يجتهد ← مُجتهِد."],
+["اسم الفاعل من «حفظ» هو:",["محفوظ","حافظ","حفظ","حافظة"],1,"الفعل «حفظ» ثلاثي، واسم الفاعل منه على وزن فاعل: حافظ."]
+]},
+{title:"المرحلة 2: مصنع اسم الفاعل",qs:[
+["اسم الفاعل من «أكرم» هو:",["مُكرَم","مُكرِم","كريم","إكرام"],1,"من غير الثلاثي: نأتي بالمضارع «يُكرم»، ثم ميم مضمومة وكسر ما قبل الآخر: مُكرِم."],
+["اسم الفاعل من «استخرج» هو:",["مُستخرَج","مُستخرِج","استخراج","خارج"],1,"يستخرج ← مُستخرِج. انتبه: كسر ما قبل الآخر في اسم الفاعل."],
+["اسم الفاعل من «قال» هو:",["قاول","قائل","مقول","قول"],1,"الفعل الأجوف «قال» يصاغ منه اسم الفاعل: قائل."],
+["اسم الفاعل من «دعا» في حالة التنكير والرفع:",["داعٍ","داعيًا","مدعو","داعي"],0,"الفعل الناقص «دعا» ← داعٍ في الرفع والجر إذا كان نكرة، وتثبت الياء في النصب: داعيًا."]
+]},
+{title:"المرحلة 3: الميزان السحري",qs:[
+["القاعدة الصحيحة لاسم الفاعل من الثلاثي:",["مَفعول","فَاعِل","مُفعِل","تَفعيل"],1,"اسم الفاعل من الفعل الثلاثي يأتي غالبًا على وزن «فاعل»: كتب ← كاتب."],
+["عند صياغة اسم الفاعل من غير الثلاثي:",["نضم حرف المضارعة فقط","نقلب حرف المضارعة ميمًا مضمومة ونكسر ما قبل الآخر","نفتح ما قبل الآخر","نضيف ألفًا"],1,"القاعدة: مضارع غير الثلاثي + ميم مضمومة بدل حرف المضارعة + كسر ما قبل الآخر."],
+["أي زوج صحيح؟",["استخرج ← مُستخرَج","أكرم ← مُكرَم","اجتهد ← مُجتهِد","كتب ← مكتوب"],2,"«اجتهد» ← «مُجتهِد» اسم فاعل. أما مُستخرَج ومُكرَم ومكتوب فهي أسماء مفعول."]
+]},
+{title:"المرحلة 4: قوة اسم الفاعل",qs:[
+["في «الطالبُ حافظٌ الدرسَ» كلمة «الدرسَ» تعرب:",["فاعلًا","مفعولًا به لاسم الفاعل","مضافًا إليه","حالًا"],1,"«حافظ» اسم فاعل عامل من «حفظ»، و«الدرسَ» مفعول به له."],
+["في «أمسافرٌ أخوك؟» كلمة «أخوك» تعرب:",["مفعولًا به","فاعلًا لاسم الفاعل","مضافًا إليه","مبتدأ"],1,"«مسافر» اسم فاعل من «سافر»، وقد اعتمد على الاستفهام، و«أخوك» فاعل له."],
+["أي الجملتين فيها اسم فاعل عامل؟",["الطالبُ كاتبٌ الدرسَ","الطالبُ كاتبُ الدرسِ أمس"],0,"«كاتبٌ الدرسَ» اسم فاعل منون يدل على الحال ويعمل، فالدرس مفعول به."],
+["في «المعلمُ الشارحُ الدرسَ محبوبٌ» كلمة «الشارح» تعمل لأنها:",["مقترنة بأل","مسبوقة بنفي","مسبوقة باستفهام","مسبوقة بنداء"],0,"اسم الفاعل المقترن بـ«أل» يعمل عمل فعله بلا شرط."]
+]},
+{title:"المرحلة 5: زعيم النحو",qs:[
+["في «الطالبُ كاتبُ الدرسِ» كلمة «الدرسِ» تعرب:",["مفعولًا به","فاعلًا","مضافًا إليه","حالًا"],2,"اسم الفاعل «كاتب» هنا مضاف، لذلك ما بعده مجرور ويعرب مضافًا إليه."],
+["أي شرط مهم لعمل اسم الفاعل المجرد من أل؟",["أن يدل على الماضي فقط","أن يدل على الحال أو الاستقبال مع الاعتماد","أن يكون فعلًا","أن يكون معرفًا"],1,"المجرد من أل يحتاج إلى دلالة الحال أو الاستقبال، وأن يعتمد على ما قبله كالنفي أو الاستفهام أو المبتدأ أو الموصوف أو النداء."],
+["«مررت برجلٍ حاملٍ حقيبتَه» كلمة «حامل» اعتمدت على:",["مبتدأ","موصوف","نفي","استفهام"],1,"«حامل» اسم فاعل مجرد من أل وقد اعتمد على موصوفه «رجل»."],
+["«يا طالبًا العلمَ اجتهد» كلمة «العلمَ» هي:",["فاعل","مفعول به لاسم الفاعل","مضاف إليه","مبتدأ"],1,"«طالبًا» اسم فاعل اعتمد على النداء، و«العلمَ» مفعول به له."],
+["في «ما مهملٌ الطالبُ واجبَه» اسم الفاعل اعتمد على:",["النفي","الاستفهام","الموصوف","أل"],0,"«ما» أداة نفي، وقد اعتمد عليها اسم الفاعل «مهمل» فعمل عمل فعله."]
+]}
+];
+
+let stage=0,q=0,score=0,lives=3,answered=false,student="";
+function startGame(){student=document.getElementById("student").value.trim();document.getElementById("start").classList.add("hide");renderLevels();loadQuestion();}
+function renderLevels(){document.getElementById("levels").innerHTML=stages.map((s,i)=>`<div class="level ${i===stage?'active':''}">🏆<br>${i+1}<br>${s.title.replace("المرحلة "+(i+1)+": ","")}</div>`).join("");}
+function loadQuestion(){
+ answered=false;document.getElementById("next").classList.add("hide");
+ const item=stages[stage].qs[q];document.getElementById("stage").textContent=stages[stage].title;
+ document.getElementById("question").textContent=item[0];
+ document.getElementById("answers").innerHTML=item[1].map((a,i)=>`<button class="ans" onclick="answer(${i})">${a}</button>`).join("");
+ update();
+}
+function answer(i){
+ if(answered)return; answered=true;
+ const item=stages[stage].qs[q], buttons=[...document.querySelectorAll(".ans")];
+ buttons.forEach((b,n)=>{if(n===item[2])b.classList.add("correct")});
+ if(i===item[2]){score+=10; if(q>0)score+=2; buttons[i].textContent="✓ "+buttons[i].textContent;}
+ else {score=Math.max(0,score-5);lives--;buttons[i].classList.add("wrong");showHelp(item[3]);}
+ update();
+ if(lives<=0){setTimeout(gameOver,450);return}
+ document.getElementById("next").classList.remove("hide");
+}
+function nextQuestion(){
+ q++;
+ if(q>=stages[stage].qs.length){stage++;q=0;if(stage>=stages.length){finish();return}}
+ renderLevels();loadQuestion();
+}
+function showHelp(text){document.getElementById("rule").innerHTML=`<div class="bad">❌ راجع إجابتك</div><hr><div>${text}</div>`;document.getElementById("help").style.display="flex";}
+function closeHelp(){document.getElementById("help").style.display="none";}
+function update(){document.getElementById("score").textContent=score;document.getElementById("lives").textContent="❤️".repeat(lives)+"🖤".repeat(3-lives);document.getElementById("levelNo").textContent=Math.min(stage+1,5)+" / 5";}
+function gameOver(){document.getElementById("rule").innerHTML=`<div class="bad">انتهت الأرواح!</div><p>لا تقلق، الخطأ جزء من التعلم. راجع القاعدة ثم ابدأ من جديد.</p><p>نتيجتك: <b>${score}</b> نقطة</p><button class="secondary" onclick="location.reload()">🔄 إعادة اللعبة</button>`;document.getElementById("help").style.display="flex";}
+function finish(){
+ document.getElementById("rule").innerHTML=`<div class="good">🎉 مبروك ${student||"يا بطل"}!</div><p>أكملت جميع مراحل مهمة صائدي اسم الفاعل.</p><p>⭐ نتيجتك النهائية: <b>${score}</b> نقطة</p><p>👑 لقبك: ${score>=120?"ملك المشتقات":score>=90?"خبير اسم الفاعل":score>=60?"محترف اسم الفاعل":"متدرب اسم الفاعل"}</p><a class="wa" href="https://wa.me/201019349929" target="_blank">💬 تواصل مع الأستاذ شريف على واتساب</a><br><br><button class="secondary" onclick="location.reload()">🔄 العب مرة أخرى</button>`;
+ document.getElementById("help").style.display="flex";
+}
+</script>
+</body>
+</html>
